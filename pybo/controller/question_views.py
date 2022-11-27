@@ -43,6 +43,7 @@ def detail(question_id):
 @bp.route("/create/", methods={"GET", "POST"})
 def create():
     form = QuestionForm()
+    print(form.validate_on_submit())
     if request.method == "POST" and form.validate_on_submit():
         question = Question(
             subject=form.subject.data,
@@ -63,6 +64,8 @@ def create():
 def modify(question_id):
     question = Question.query.get_or_404(question_id)
 
+    print(g.user)
+    print(question.user)
     if g.user != question.user:
         flash("수정권한이 없습니다")
         return redirect(url_for("question.detail", question_id=question_id))
