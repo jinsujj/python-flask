@@ -21,7 +21,7 @@ migrate = Migrate()
 # 애플리케이션 팩토리  반드시 [[[ create_app ]]] 이름으로만 설정해야함
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(config)
+    app.config.from_envvar("APP_CONFIG_FILE")
 
     # ORM
     db.init_app(app)

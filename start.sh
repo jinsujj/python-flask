@@ -1,0 +1,1 @@
+gunicorn -w 4 --bind 0:5000 "pybo:create_app()"
