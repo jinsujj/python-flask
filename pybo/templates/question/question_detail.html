@@ -19,6 +19,10 @@
                 </div>
             </div>
             <div class="my-3">
+                <a href="javascript:void(0)" data-uri="{{ url_for('question.vote', question_id=question.id) }}"
+                    class="recommend btn btn-sm btn-outline-secondary"> 추천
+                    <span class="badge rounded-pill bg-success">{{ question.voter|length }}</span>
+                </a>
                 {% if g.user == question.user %}
                 <a href="{{ url_for('question.modify', question_id=question.id) }}"
                     class="btn btn-sm btn-outline-secondary">수정</a>
@@ -53,6 +57,11 @@
                 </div>
             </div>
             <div class="my-3">
+                <a href="javascript:void(0)" data-uri="{{ url_for('answer.vote', answer_id=answer.id) }}"
+                    class="recommend btn btn-sm btn-outline-secondary"> 추천
+                    <span class="badge rounded-pill bg-success">{{ answer.voter|length }}</span>
+                </a>
+
                 {% if g.user == answer.user %}
                 <a href="{{ url_for('answer.modify', answer_id=answer.id) }}"
                     class="btn btn-sm btn-outline-secondary">수정</a>
@@ -79,11 +88,10 @@
     </div>
     {% endif %}
     <!-- 오류표시 End -->
-    <form action="{{ url_for('answer.create', question_id=question.id) }}" method="post" 
-    class="my-3">
-    {{ form.csrf_token }}
+    <form action="{{ url_for('answer.create', question_id=question.id) }}" method="post" class="my-3">
+        {{ form.csrf_token }}
         <div class="mb-3">
-            <textarea  name="content" id="content" class="form-control" rows="10"></textarea>
+            <textarea name="content" id="content" class="form-control" rows="10"></textarea>
         </div>
         <input type="submit" value="답변등록" class="btn btn-primary">
     </form>
@@ -95,6 +103,14 @@
     Array.from(delete_elements).forEach(function (element) {
         element.addEventListener('click', function () {
             if (confirm("정말로 삭제하시겠습니까?")) {
+                location.href = this.dataset.uri;
+            };
+        });
+    });
+    const recommend_elements = document.getElementsByClassName("recommend");
+    Array.from(recommend_elements).forEach(function (element) {
+        element.addEventListener('click', function () {
+            if (confirm("정말로 추천하시겠습니까?")) {
                 location.href = this.dataset.uri;
             };
         });
